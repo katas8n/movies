@@ -1,0 +1,42 @@
+@import '../../styles/variables.scss';
+
+.button {
+    display: block;
+    border: none;
+    font-size: 1rem;
+    font-family: $font;
+    padding: 1rem 3rem;
+    border-radius: 1.5rem;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 400ms ease, color 400ms ease,
+        box-shadow 400ms ease;
+
+    &--orange {
+        background-color: $orange-bg;
+        color: white;
+        box-shadow: 0 0.3rem 0.6rem #ffae00a6;
+
+        &:hover {
+            background-color: darken($orange-bg, 2%);
+        }
+        &:focus {
+            box-shadow: 0 0 0 2px $white-border, 0 0 0 4px $orange-border;
+        }
+    }
+    &--blue {
+        background-color: $blue-bg;
+        color: white;
+        box-shadow: 0 0.3rem 0.6rem rgba($blue-bg, 0.4);
+
+        &:hover {
+            background-color: darken($blue-bg, 10%);
+        }
+    }
+    &[disabled] {
+        cursor: not-allowed;
+        background-color: rgba($gray-bg, 0.1);
+        color: $gray-text;
+        box-shadow: 0 0.3rem 0.6rem rgba($gray-bg, 0.2);
+    }
+}

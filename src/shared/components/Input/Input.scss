@@ -1,0 +1,42 @@
+@import '../../styles/variables.scss';
+@import '../../styles/placeholders.scss';
+
+.input-wrapper {
+    position: relative;
+    min-width: max-content;
+
+    &__label {
+        cursor: text;
+        color: $gray-text;
+        // color: $white-text;
+        position: absolute;
+        top: calc(50% - 1rem / 2);
+        left: 1rem;
+        font-size: 1.2rem;
+        transition: top 400ms ease, left 400ms ease, font-size 400ms ease;
+
+        &--top {
+            top: -0.8rem;
+            left: 0;
+            font-size: 1rem;
+        }
+    }
+
+    &__input {
+        min-width: 30rem;
+        display: block;
+        outline: none;
+        background-color: $transparent-bg;
+        border: none;
+        border-bottom: 0.2rem solid $gray-border;
+        font-family: $font;
+        font-size: 1.2rem;
+        // color: $white-text;
+        padding: 0.5rem;
+        transition: border-color 300ms ease;
+
+        &:focus {
+            border-color: $orange-border;
+        }
+    }
+}

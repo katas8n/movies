@@ -1,0 +1,21 @@
+@import '../../styles/variables.scss';
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 4;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($dark-black-bg, 0.8);
+    animation: fadeOut 300ms ease forwards;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

@@ -1,0 +1,21 @@
+@import '../../styles/variables.scss';
+
+.error-boundary {
+    min-height: 100vh;
+    background-image: $purple-bg;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    &__content {
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    &__body {
+        padding: 1.25rem;
+        border-radius: 0.75rem;
+        background-color: $white-bg;
+        min-width: 35rem;
+    }
+}

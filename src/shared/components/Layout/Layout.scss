@@ -1,0 +1,13 @@
+@import '../../styles/variables.scss';
+.layout {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
+
+    &__content {
+        display: flex;
+        flex-grow: 1;
+        background-image: $purple-bg;
+    }
+}

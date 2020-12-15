@@ -1,0 +1,12 @@
+@import '../../styles/placeholders.scss';
+@import '../../styles/variables.scss';
+.footer {
+    font-size: 1.2rem;
+    background-color: $white-bg;
+    color: $gray-text;
+    padding: 1.5rem;
+    text-align: center;
+    &__wrapper {
+        @extend %section-wrapper;
+    }
+}
