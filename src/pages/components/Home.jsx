@@ -1,5 +1,6 @@
 import React from 'react';
 import PT from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import Button from '../../shared/components/Button/Button';
 
@@ -26,13 +27,13 @@ const Home = ({ movies }) => {
                     >
                         <h2 className="home__title">{original_title}</h2>
 
-                        <a
-                            href="/"
+                        <Link
+                            to={`/movies/${id}`}
                             className="button button--blue home__link"
                             type="button"
                         >
                             Read More...
-                        </a>
+                        </Link>
                     </div>
                 ))}
             </div>

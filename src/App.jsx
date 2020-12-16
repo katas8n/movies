@@ -5,6 +5,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import Home from './pages/components/Home';
 import Layout from './shared/components/Layout/Layout.jsx';
 import ErrorBoundary from './shared/components/ErrorBoundary/ErrorBoundary';
+import FullMovie from './pages/FullMovie/FullMovie';
 
 const API_KEY = 'c7f6d879d30beedca16958aaeab0fceb';
 
@@ -91,9 +92,14 @@ class App extends PureComponent {
                                 return <Home movies={movies} />;
                             }}
                         />
+                        <Route
+                            path="/movies/:slug"
+                            render={props => {
+                                return <FullMovie {...props} movies={movies} />;
+                            }}
+                        />
 
                         <Route
-                            exact
                             path="/favorite-movies"
                             render={() => {
                                 return <p>favorite-movies</p>;
@@ -101,7 +107,6 @@ class App extends PureComponent {
                         />
 
                         <Route
-                            exact
                             path="/profiles"
                             render={() => {
                                 return <p>profiles</p>;

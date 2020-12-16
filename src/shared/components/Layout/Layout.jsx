@@ -8,41 +8,40 @@ import Footer from '../Footer/Footer';
 
 import './Layout.scss';
 
-const Layout = ({ children , search ,chanegeInputValue ,searchMovies ,isFetching}) => (
-
-        <div className="layout">
-            <Toolbar 
+const Layout = ({
+    children,
+    search,
+    chanegeInputValue,
+    searchMovies,
+    isFetching
+}) => (
+    <div className="layout">
+        <Toolbar
             search={search}
-            className='toolbar--sticky'
+            className="toolbar--sticky"
             chanegeInputValue={chanegeInputValue}
             searchMovies={searchMovies}
             isFetching={isFetching}
-            />
-            <div className="layout__content">
-            {
-                isFetching ?(
-                    <>
-                    <Backdrop/>
-                    <Loader type='blue'/>
-                    </> 
-                )
-                : children
-            }
-
-            </div>
-
-            <Footer />
+        />
+        <div className="layout__content">
+            {children}
+            {isFetching && (
+                <>
+                    <Backdrop />
+                    <Loader type="blue" />
+                </>
+            )}
         </div>
-)
+
+        <Footer />
+    </div>
+);
 Layout.PT = {
     isFetching: PT.bool.isRequired,
-    search : PT.string.isRequired ,
+    search: PT.string.isRequired,
     chanegeInputValue: PT.func.isRequired,
-    children : PT.oneOf([
-        PT.object,
-        PT.arrayOf(PT.object)
-    ]).isRequired,
+    children: PT.oneOf([PT.object, PT.arrayOf(PT.object)]).isRequired,
     searchMovies: PT.func.isRequired
-}
+};
 
 export default Layout;
