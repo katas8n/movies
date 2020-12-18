@@ -1,0 +1,17 @@
+@import '../../../shared/styles/variables.scss';
+
+.similar-movies {
+    position: relative;
+    z-index: 1;
+    min-width: 10rem;
+    &__img {
+        width: 100%;
+        display: block;
+    }
+    &__list-item {
+        margin-bottom: 1.25rem;
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}

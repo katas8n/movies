@@ -5,15 +5,10 @@
     justify-content: center;
     &__content {
         display: flex;
-        min-width: 90rem;
-    }
-    &__body {
         background-size: cover;
         background-repeat: no-repeat;
-        display: flex;
-        padding: 3rem;
-
         position: relative;
+        padding: 3rem;
 
         &::before {
             content: '';
@@ -24,6 +19,10 @@
             position: absolute;
             background-color: rgba($dark-black-bg, 0.8);
         }
+    }
+    &__body {
+        display: flex;
+        margin-right: 1rem;
     }
     &__img-wrapper,
     &__info-wrapper {
@@ -40,7 +39,6 @@
     &__info-wrapper {
         padding: 2.5rem;
         display: flex;
-        width: 35rem;
         color: $white-text;
         text-align: center;
         flex-direction: column;

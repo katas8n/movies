@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Button from '../../shared/components/Button/Button';
+import SimilarMovies from './SimilarMovies/SimilarMovies';
 
 import { shape } from 'prop-types';
 import PT from 'prop-types';
@@ -14,32 +15,131 @@ const axios = Axios.create({
 const API_KEY = 'c7f6d879d30beedca16958aaeab0fceb';
 
 //https://api.themoviedb.org/3/movie/24428/similar?api_key=c7f6d879d30beedca16958aaeab0fceb&language=en-US&page=1
+//https://api.themoviedb.org/3/movie/{movie_id}?api_key=c7f6d879d30beedca16958aaeab0fceb&language=en-US
 
 //CLASS_COMPOM
 class FullMovie extends Component {
     state = {
-        similarMovies: []
+        similarMovies: [],
+        fullMovie: null
     };
     componentDidMount() {
-        const { slug } = this.props.match.params;
-
-        console.log('[slug]', slug);
-        axios
-            .get(
-                `/movie/${slug}/similar?api_key=;${API_KEY}&language=en-US&page=1`
-            )
-            .then(response => {})
-            .catch(e => {});
-    }
-    componentWillUnmount() {}
-
-    render() {
         const { match, movies } = this.props;
         const { slug } = match.params;
 
-        const fullmovie = movies.find(({ id }) => id === +slug);
+        const fullMovie = movies.find(({ id }) => id === +slug);
 
-        if (!fullmovie) return null;
+        if (fullMovie) {
+            return this.setState({ fullMovie });
+        }
+        axios
+            .get(`/movie/${slug}?api_key=${API_KEY}&language=en-US`)
+            .then(response => {
+                const fullMovie = response.data;
+
+                if (!fullMovie) {
+                    return this.fetchSimularMovie(slug)
+                        .then(response => {
+                            const { data } = response;
+
+                            if (!data) return this.setState({ fullMovie });
+
+                            const similarMovies = data.results.slice(0, 5);
+                            this.setState({
+                                fullMovie,
+                                similarMovies
+                            });
+                        })
+                        .catch(e => {
+                            console.error(e);
+                        });
+                }
+
+                this.fetchSimularMovie(slug)
+                    .then(response => {
+                        const { data } = response;
+
+                        if (!data) return this.setState({ fullMovie });
+
+                        const similarMovies = data.results.slice(0, 5);
+                        this.setState({
+                            fullMovie,
+                            similarMovies
+                        });
+                    })
+                    .catch(e => {
+                        console.error(e);
+                    });
+
+                this.setState({
+                    fullMovie: fullMovie
+                });
+            })
+            .catch(e => {
+                console.log('error', e);
+            });
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { slug } = this.props.match.params;
+        const { slug: prevSlug } = prevProps.match.params;
+
+        if (slug == prevSlug) return;
+
+        axios
+            .get(`/movie/${slug}?api_key=${API_KEY}&language=en-US`)
+            .then(response => {
+                const fullMovie = response.data;
+
+                if (!fullMovie) {
+                    return this.fetchSimularMovie(slug)
+                        .then(response => {
+                            const { data } = response;
+
+                            if (!data) return this.setState({ fullMovie });
+
+                            const similarMovies = data.results.slice(0, 5);
+                            this.setState({
+                                fullMovie,
+                                similarMovies
+                            });
+                        })
+                        .catch(e => {
+                            console.error(e);
+                        });
+                }
+
+                this.fetchSimularMovie(slug)
+                    .then(response => {
+                        const { data } = response;
+
+                        if (!data) return this.setState({ fullMovie });
+
+                        const similarMovies = data.results.slice(0, 5);
+                        this.setState({
+                            fullMovie,
+                            similarMovies
+                        });
+                    })
+                    .catch(e => {
+                        console.error(e);
+                    });
+
+                this.setState({
+                    fullMovie: fullMovie
+                });
+            });
+    }
+
+    fetchSimularMovie(slug) {
+        return axios.get(
+            `/movie/${slug}/similar?api_key=${API_KEY}&language=en-US&page=1`
+        );
+    }
+    render() {
+        const { fullMovie, similarMovies } = this.state;
+
+        if (!fullMovie) return null;
 
         const {
             id,
@@ -48,19 +148,20 @@ class FullMovie extends Component {
             release_date,
             overview,
             backdrop_path
-        } = fullmovie;
+        } = fullMovie;
 
         const imgUrl = 'https://image.tmdb.org/t/p/w500';
 
         return (
             <div className="full-movie">
-                <div key={id} className="full-movie__content">
-                    <div
-                        className="full-movie__body"
-                        style={{
-                            backgroundImage: `url(https://image.tmdb.org/t/p/original${backdrop_path})`
-                        }}
-                    >
+                <div
+                    key={id}
+                    className="full-movie__content"
+                    style={{
+                        backgroundImage: `url(https://image.tmdb.org/t/p/original${backdrop_path})`
+                    }}
+                >
+                    <div className="full-movie__body">
                         <div className="full-movie__img-wrapper">
                             <img
                                 src={imgUrl + poster_path}
@@ -83,9 +184,7 @@ class FullMovie extends Component {
                             </Button>
                         </div>
                     </div>
-                    <div className="full-movie__recommended">
-                        Recommended Movies
-                    </div>
+                    <SimilarMovies movies={similarMovies} />
                 </div>
             </div>
         );
@@ -97,7 +196,7 @@ FullMovie.PT = {
     }).isRequired,
     movies: PT.arrayOf(
         PT.shape({
-            poster_path: PT.string,
+            poster__path: PT.string,
             id: PT.number.isRequired,
             backdrop_path: PT.string,
             original_title: PT.string.isRequired,

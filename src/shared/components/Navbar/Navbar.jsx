@@ -37,7 +37,7 @@ const Navbar = () => {
                             <NavLink
                                 className="navbar__link"
                                 to={url}
-                                exact={exact}
+                                exact
                                 activeClassName="navbar__link--active"
                             >
                                 {title}
